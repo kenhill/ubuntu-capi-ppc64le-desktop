@@ -13,6 +13,8 @@ RUN mkdir -p /usr/local/lib/nimbix_desktop && for i in help-tiger.html install-u
 ADD tigervnc-Linux-ppc64le-1.7.1.tar.gz /
 # Replace install-ubuntu-tiger to use TigerVNC ppc64le archive
 ADD install-ubuntu-tiger.sh /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
+# Add missing library (?) 
+RUN apt-get install -y libmd-dev
 
 RUN /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh && ln -s /usr/local/lib/nimbix_desktop /usr/lib/JARVICE/tools/nimbix_desktop
 
