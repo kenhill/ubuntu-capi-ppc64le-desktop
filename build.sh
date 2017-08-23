@@ -25,4 +25,5 @@ cp /tmp/tigervnc-Linux*.tar.gz $ROOT_DIR
 
 mv tigervnc-Linux*.tar.gz $ROOT_DIR/docker_ubuntu
 docker build -t ubuntu-capi-ppc64le-desktop:latest $ROOT_DIR/docker_ubuntu
+rm $ROOT_DIR/docker_ubuntu/tigervnc-Linux*.tar.gz
 

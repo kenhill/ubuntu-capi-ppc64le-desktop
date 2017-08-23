@@ -24,17 +24,12 @@ RUN /tmp/setup-user.sh && rm -rf /tmp/setup-user.sh
 # Required packages to build TigerVNC
 RUN apt-get update && apt-get install -y git cmake libx11-dev zlib1g-dev libjpeg-turbo8-dev gettext libfltk1.3-dev libxrender-dev
 # Required packages to build Xvnc
-RUN apt-get install -y autoconf automake autopoint libtool pkg-config bison flex gperf m4 libncurses5-dev intltool llvm libtalloc-dev libgbm1 libmtdev-dev libgcrypt20-dev libssl-dev libmd-dev fontconfig libpng-dev libfreetype6-dev xutils-dev xfonts-utils xserver-xorg-dev libpixman-1-dev x11proto-record-dev x11proto-xcmisc-dev x11proto-bigreqs-dev x11proto-composite-dev
+RUN apt-get update && apt-get install -y autoconf automake autopoint libtool pkg-config bison flex gperf m4 libncurses5-dev intltool llvm libtalloc-dev libgbm1 libmtdev-dev libgcrypt20-dev libssl-dev libmd-dev fontconfig libpng-dev libfreetype6-dev xutils-dev libxfont1-dev xfonts-utils xserver-xorg-dev libpixman-1-dev x11proto-record-dev x11proto-xcmisc-dev x11proto-bigreqs-dev x11proto-composite-dev
 
 # Required packages for docs
-RUN apt-get install -y asciidoc doxygen xmlto xsltproc
+RUN apt-get update && apt-get install -y asciidoc doxygen xmlto xsltproc
 # Freedesktop dependencies
-RUN apt-get install -y libevdev-dev
-
-# Ubuntu 16.04 bug for xfont
-RUN apt-get install -y wget
-RUN wget http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxfont1/libxfont1-dev_1.5.2-4_ppc64el.deb
-RUN dpkg --force-all -i libxfont1-dev_1.5.2-4_ppc64el.deb 
+RUN apt-get update && apt-get install -y libevdev-dev
 
 ADD https://www.x.org/archive/individual/xserver/xorg-server-1.18.0.tar.bz2 /usr/src/xorg-server.tar.bz2 
 RUN chmod 755 /usr/src/xorg-server.tar.bz2
