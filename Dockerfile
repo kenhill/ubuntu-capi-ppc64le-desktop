@@ -1,4 +1,3 @@
-#!/bin/bash
 #
 # Copyright 2017 International Business Machines
 #
@@ -15,14 +14,19 @@
 # limitations under the License.
 #
 
+FROM ppc64le/ubuntu:xenial
+MAINTAINER IBM
 
-ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# nimbix account and desktop setup
+RUN apt-get update && apt-get -y install curl && apt-get clean
+RUN curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/nimbix/image-common/master/install-nimbix.sh | bash -s -- --setup-nimbix-desktop
+EXPOSE 22
+EXPOSE 5901
+EXPOSE 443
 
-docker build -t tigervnc-build:latest $ROOT_DIR/docker_tiger
-docker run --rm -v /tmp:/data:rw tigervnc-build
-docker rmi tigervnc-build:latest
-cp /tmp/tigervnc-Linux*.tar.gz $ROOT_DIR
-
-mv tigervnc-Linux*.tar.gz $ROOT_DIR/docker_ubuntu
-docker build -t ubuntu-capi-ppc64le-desktop:latest $ROOT_DIR/docker_ubuntu
+# Clone and build CAPI tools
+RUN apt-get update && apt-get -y install git build-essential vim
+WORKDIR /tmp 
+RUN git clone https://github.com/ibm-capi/libcxl && cd libcxl && make && cp libcxl.h /usr/local/include && cp libcxl.so* /usr/local/lib
+RUN cd /tmp && rm -rf libcxl
 
